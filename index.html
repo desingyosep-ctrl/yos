@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreelanceOS — Diseño & Video</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;height:100vh;overflow:hidden;display:flex}
+
+/* SIDEBAR */
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e8e8e4;display:flex;flex-direction:column;padding:16px 0;height:100vh}
+.logo{padding:0 16px 16px;border-bottom:1px solid #e8e8e4;margin-bottom:12px}
+.logo h1{font-size:15px;font-weight:600;color:#1a1a1a;display:flex;align-items:center;gap:6px}
+.logo p{font-size:11px;color:#888;margin-top:2px}
+.nav-label{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.6px;padding:0 16px;margin-bottom:4px}
+.nav-section{padding:4px 8px;margin-bottom:8px}
+.nav-btn{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:#555;border:none;background:none;width:100%;text-align:left;transition:background .15s}
+.nav-btn:hover{background:#f5f5f0}
+.nav-btn.active{background:#f0effe;color:#534AB7;font-weight:600}
+.badge{margin-left:auto;font-size:10px;background:#f0f0ec;border:1px solid #e0e0da;border-radius:10px;padding:1px 6px;color:#888}
+.sidebar-footer{margin-top:auto;padding:12px 16px;border-top:1px solid #e8e8e4;font-size:11px;color:#aaa;line-height:1.6}
+
+/* MAIN */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column;height:100vh}
+.topbar{background:#fff;border-bottom:1px solid #e8e8e4;padding:12px 20px;display:flex;align-items:center;gap:12px}
+.topbar h2{font-size:16px;font-weight:600;flex:1}
+select.filter-sel{font-size:12px;padding:6px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#333;cursor:pointer}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid #ddd;background:#fff;color:#333;font-size:13px;cursor:pointer;transition:background .15s;font-family:inherit}
+.btn:hover{background:#f5f5f0}
+.btn-primary{background:#7F77DD;border-color:#7F77DD;color:#fff;font-weight:600}
+.btn-primary:hover{background:#534AB7;border-color:#534AB7}
+.btn-danger{color:#c0392b;border-color:#c0392b}
+.btn-danger:hover{background:#fff0ee}
+.content{flex:1;overflow:auto;padding:20px}
+
+/* KANBAN */
+.kanban{display:flex;gap:12px;align-items:flex-start;padding-bottom:16px}
+.kanban-col{min-width:210px;width:210px;background:#f0f0ec;border-radius:10px;border:1px solid #e0e0da}
+.kanban-header{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e0e0da}
+.kanban-header span{font-size:12px;font-weight:600;color:#444}
+.col-count{font-size:11px;color:#888;background:#fff;border:1px solid #e0e0da;border-radius:10px;padding:1px 7px}
+.kanban-cards{padding:8px;display:flex;flex-direction:column;gap:7px;min-height:50px}
+.card{background:#fff;border:1px solid #e8e8e4;border-radius:8px;padding:10px 12px;cursor:pointer;transition:box-shadow .15s,border-color .15s}
+.card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);border-color:#bbb}
+.card-title{font-size:12px;font-weight:600;margin-bottom:6px;line-height:1.4;color:#1a1a1a}
+.card-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.pill{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;display:inline-flex;align-items:center;gap:3px}
+.pill-boda{background:#eeedfe;color:#3C3489}
+.pill-cev{background:#e1f5ee;color:#085041}
+.pill-agencia{background:#e6f1fb;color:#0C447C}
+.card-date{font-size:10px;color:#aaa;margin-left:auto;white-space:nowrap}
+.progress-bar{margin-top:8px;height:3px;background:#eee;border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:#7F77DD;border-radius:2px;transition:width .3s}
+.empty-col{font-size:11px;color:#bbb;text-align:center;padding:12px 0}
+
+/* CALENDAR */
+.cal-wrapper{background:#fff;border-radius:10px;border:1px solid #e8e8e4;overflow:hidden}
+.cal-top{padding:14px 20px;border-bottom:1px solid #e8e8e4;display:flex;align-items:center;justify-content:space-between}
+.cal-top h3{font-size:15px;font-weight:600}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid #e8e8e4}
+.cal-head{background:#fafaf8;padding:8px;font-size:11px;font-weight:600;color:#888;text-align:center;border-right:1px solid #e8e8e4;border-bottom:1px solid #e8e8e4}
+.cal-head:last-child{border-right:none}
+.cal-day{min-height:90px;padding:6px;border-right:1px solid #e8e8e4;border-bottom:1px solid #e8e8e4;vertical-align:top}
+.cal-day:nth-child(7n){border-right:none}
+.cal-day.other{background:#fafaf8}
+.cal-num{font-size:11px;color:#aaa;margin-bottom:4px;width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+.cal-num.today{background:#7F77DD;color:#fff;border-radius:50%;font-size:10px;font-weight:700}
+.cal-event{font-size:9px;padding:2px 5px;border-radius:4px;margin-bottom:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.ev-cev{background:#e1f5ee;color:#085041}
+.ev-agencia{background:#e6f1fb;color:#0C447C}
+.ev-boda{background:#eeedfe;color:#3C3489}
+
+/* LIST */
+.list-wrap{background:#fff;border-radius:10px;border:1px solid #e8e8e4;overflow:hidden}
+.list-table{width:100%;border-collapse:collapse;font-size:12px}
+.list-table th{text-align:left;padding:9px 14px;font-size:11px;font-weight:600;color:#888;border-bottom:1px solid #e8e8e4;background:#fafaf8;position:sticky;top:0}
+.list-table td{padding:10px 14px;border-bottom:1px solid #f0f0ec;color:#333}
+.list-table tr:hover td{background:#fafaf8;cursor:pointer}
+.group-row td{font-size:11px;font-weight:600;color:#666;background:#f5f5f0;padding:7px 14px}
+.status-pill{display:inline-flex;align-items:center;font-size:10px;padding:3px 8px;border-radius:10px;font-weight:600}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;width:580px;max-height:85vh;overflow-y:auto;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal h3{font-size:17px;font-weight:700;margin-bottom:18px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0}
+.form-row{margin-bottom:12px}
+.form-row label{display:block;font-size:11px;font-weight:600;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;font-size:13px;font-family:inherit;outline:none}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:#7F77DD;box-shadow:0 0 0 3px rgba(127,119,221,.15)}
+.form-row textarea{resize:vertical;min-height:60px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:16px;border-top:1px solid #e8e8e4}
+
+/* DETAIL */
+.detail-modal{width:680px}
+.prop-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.prop-block{background:#f5f5f0;border-radius:8px;padding:10px 12px}
+.prop-block label{font-size:10px;font-weight:600;color:#aaa;display:block;margin-bottom:3px;text-transform:uppercase}
+.prop-block span{font-size:13px;font-weight:600;color:#1a1a1a}
+.phase-block{background:#f5f5f0;border-radius:8px;padding:12px;margin-bottom:8px}
+.phase-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.phase-header span{font-size:12px;font-weight:700;color:#333}
+.phase-header small{font-size:11px;color:#888}
+.pbar{height:5px;background:#ddd;border-radius:3px;overflow:hidden;margin-bottom:8px}
+.pbar-fill{height:100%;background:#7F77DD;transition:width .3s}
+.check-item{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid #e8e8e4;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.check-item input[type=checkbox]{width:15px;height:15px;accent-color:#7F77DD;cursor:pointer;flex-shrink:0}
+.check-item label{font-size:12px;cursor:pointer;flex:1;line-height:1.3}
+.check-item.done label{color:#bbb;text-decoration:line-through}
+.avance-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;background:#f5f5f0;border-radius:8px;padding:12px}
+.avance-row input[type=range]{flex:1;accent-color:#7F77DD}
+.avance-row span{font-size:14px;font-weight:700;min-width:40px;color:#534AB7}
+.notes-box{background:#fffdf0;border:1px solid #e8e8e0;border-radius:8px;padding:10px 12px;font-size:12px;color:#666;margin-bottom:14px;line-height:1.5}
+.section-title{font-size:13px;font-weight:700;margin-bottom:10px;margin-top:4px;color:#333}
+.global-bar{background:#f5f5f0;border-radius:8px;padding:12px;margin-bottom:14px}
+.global-bar-header{display:flex;justify-content:space-between;margin-bottom:6px}
+.global-bar-header span{font-size:12px;font-weight:700}
+.global-bar-header small{font-size:12px;color:#888}
+
+/* Backup buttons */
+.backup-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid #e8e8e4;margin-top:auto}
+.backup-row button{flex:1;font-size:11px;padding:6px}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="logo">
+    <h1>🎬 FreelanceOS</h1>
+    <p>Diseño &amp; Video</p>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Vistas</div>
+    <button class="nav-btn active" onclick="setView('kanban',this)"><i class="ti ti-layout-kanban"></i> Kanban <span class="badge" id="total-badge">0</span></button>
+    <button class="nav-btn" onclick="setView('calendario',this)"><i class="ti ti-calendar"></i> Calendario</button>
+    <button class="nav-btn" onclick="setView('lista',this)"><i class="ti ti-list"></i> Lista por cliente</button>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Clientes</div>
+    <button class="nav-btn active-f" id="f-todos" onclick="filtrarCliente('todos',this)"><i class="ti ti-users"></i> Todos</button>
+    <button class="nav-btn" id="f-Bodas" onclick="filtrarCliente('Bodas',this)"><i class="ti ti-heart"></i> Bodas</button>
+    <button class="nav-btn" id="f-Cevichería" onclick="filtrarCliente('Cevichería',this)"><i class="ti ti-fish"></i> Cevichería</button>
+    <button class="nav-btn" id="f-Agencia" onclick="filtrarCliente('Agencia',this)"><i class="ti ti-plane"></i> Agencia Viajes</button>
+  </div>
+  <div class="backup-row">
+    <button class="btn" onclick="exportarBackup()" title="Exportar backup"><i class="ti ti-download"></i> Exportar</button>
+    <button class="btn" onclick="document.getElementById('import-file').click()" title="Importar backup"><i class="ti ti-upload"></i> Importar</button>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importarBackup(event)">
+  </div>
+  <div class="sidebar-footer" id="stats-mini"></div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <h2 id="view-title">Tablero Kanban</h2>
+    <select class="filter-sel" id="filter-estado" onchange="renderAll()">
+      <option value="">Todos los estados</option>
+      <option>Ingesta</option><option>En edición</option><option>Diseño</option>
+      <option>Revisión</option><option>Aprobado</option><option>Entregado</option><option>Programado</option>
+    </select>
+    <button class="btn btn-primary" onclick="abrirModal()"><i class="ti ti-plus"></i> Nuevo proyecto</button>
+  </div>
+  <div class="content" id="main-content"></div>
+</div>
+
+<!-- MODAL NUEVO/EDITAR -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title">Nuevo proyecto</h3>
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Nombre del proyecto</label>
+        <input id="f-nombre" placeholder="Ej: Boda García-López, Semana 23...">
+      </div>
+      <div class="form-row">
+        <label>Cliente</label>
+        <select id="f-cliente" onchange="actualizarTipo()">
+          <option value="Bodas">💒 Bodas</option>
+          <option value="Cevichería">🍋 Cevichería</option>
+          <option value="Agencia">✈️ Agencia Viajes</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Tipo de proyecto</label>
+        <select id="f-tipo"></select>
+      </div>
+      <div class="form-row">
+        <label>Estado</label>
+        <select id="f-estado">
+          <option>Ingesta</option><option>En edición</option><option>Diseño</option>
+          <option>Revisión</option><option>Aprobado</option><option>Entregado</option><option>Programado</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Prioridad</label>
+        <select id="f-prioridad">
+          <option>Alta</option><option selected>Media</option><option>Baja</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Fecha de entrega</label>
+        <input id="f-fecha" type="date">
+      </div>
+      <div class="form-row">
+        <label>Plataforma</label>
+        <select id="f-plataforma">
+          <option value="">— Sin plataforma —</option>
+          <option>Instagram</option><option>TikTok</option><option>Facebook</option><option>YouTube</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>% Avance inicial</label>
+        <input id="f-avance" type="number" min="0" max="100" value="0">
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Link de assets (Drive / Dropbox)</label>
+      <input id="f-assets" placeholder="https://...">
+    </div>
+    <div class="form-row">
+      <label>Campaña / Destino (solo Agencia)</label>
+      <input id="f-campana" placeholder="Ej: Cusco Jun25">
+    </div>
+    <div class="form-row">
+      <label>Notas</label>
+      <textarea id="f-notas" placeholder="Observaciones rápidas..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarProyecto()"><i class="ti ti-check"></i> Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETALLE -->
+<div class="overlay" id="detail-overlay">
+  <div class="modal detail-modal">
+    <div id="detail-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" onclick="eliminarProyecto()"><i class="ti ti-trash"></i> Eliminar</button>
+      <button class="btn" onclick="cerrarDetalle()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ESTADOS=['Ingesta','En edición','Diseño','Revisión','Aprobado','Entregado','Programado'];
+const ESTADO_STYLE={
+  'Ingesta':'background:#e6f1fb;color:#0C447C',
+  'En edición':'background:#eeedfe;color:#3C3489',
+  'Diseño':'background:#faeeda;color:#633806',
+  'Revisión':'background:#faece7;color:#4A1B0C',
+  'Aprobado':'background:#eaf3de;color:#173404',
+  'Entregado':'background:#e1f5ee;color:#085041',
+  'Programado':'background:#fbeaf0;color:#4B1528'
+};
+const TIPOS={
+  'Bodas':['Video largo','Teaser','Reel/TikTok'],
+  'Cevichería':['Semana lote','Flyer','Reel/TikTok'],
+  'Agencia':['Post foto','Reel/TikTok','Video largo']
+};
+
+function mkChecks(c){
+  const BODAS=[
+    {fase:'⚙️ Fase 0 — Ingesta y respaldo',items:['Recepción de discos/tarjetas del cliente','Copia de seguridad disco 1 (principal)','Copia de seguridad disco 2 (respaldo)','Estructura de carpetas creada (/RAW /AUDIO /EXPORTS /PROYECTO)','Sincronización multi-cámara (Cam A / Cam B / Cam C)','Sincronización audio externo (consola / lavalier / boom)','Revisión de material completo — anotar duración total']},
+    {fase:'🗂️ Fase 1 — Culling (Selección)',items:['Revisión completa del material sin editar','Marcado de clips seleccionados en NLE (★ o colores)','Descarte de clips defectuosos (fuera de foco / sobreexp.)','Lista de clips imprescindibles anotada']},
+    {fase:'🎬 Bloque 1 — Intro / Preparativos',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎬 Bloque 2 — Iglesia / Ceremonia religiosa',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎬 Bloque 3 — Boda Civil',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎬 Bloque 4 — Paseo de Novios (Sesión externa)',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎬 Bloque 5 — Entrada al Salón / Banquete',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎬 Bloque 6 — Vals',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎬 Bloque 7 — Lanzamiento del Ramo / Liga',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎬 Bloque 8 — Entrega de Regalos',items:['Selección de clips','Montaje en línea de tiempo','Revisión interna']},
+    {fase:'🎵 Grupo Musical 1',items:['Selección','Montaje','Revisión']},
+    {fase:'🎵 Grupo Musical 2',items:['Selección','Montaje','Revisión']},
+    {fase:'🎵 Grupo Musical 3',items:['Selección','Montaje','Revisión']},
+    {fase:'🎵 Grupo Musical 4',items:['Selección','Montaje','Revisión']},
+    {fase:'🎵 Grupo Musical 5',items:['Selección','Montaje','Revisión']},
+    {fase:'🎨 Fase 3 — Post-producción',items:['Corrección de color (LUT aplicado / grade manual)','Audio de consola integrado y sincronizado','Mezcla de audio: niveles, ambiente, música','Títulos y motion graphics (nombres, fechas, lugares)','Export v1 para revisión interna (H264 / 1080p)','Correcciones tras revisión interna','Export FINAL en formato acordado con cliente']},
+    {fase:'📦 Fase 4 — Teaser corto (2–3 min)',items:['Selección de mejores momentos del film','Montaje del teaser','Post-producción (color + audio)','Export teaser']},
+    {fase:'📦 Fase 4 — TikTok / Reels (30–60 seg)',items:['Selección clip hero / momento viral','Montaje vertical 9:16','Subtítulos o texto on-screen','Export TikTok / Reels']},
+    {fase:'📤 Entrega final',items:['Subida a carpeta de entrega (Drive / WeTransfer)','Link enviado al cliente por WhatsApp / correo','Confirmación de recepción del cliente','Archivos de proyecto archivados en almacenamiento final']}
+  ];
+  const CEV=[
+    {fase:'🖼️ Flyer — Lunes',items:['Brief/tema definido','Assets descargados de carpeta del cliente','Diseño ejecutado (PS / AI / Canva)','Revisión interna','Enviado para aprobación al cliente','Aprobado por cliente','Exportado: Feed 1:1 y Story 9:16','Programado o entregado']},
+    {fase:'🖼️ Flyer — Martes',items:['Brief/tema definido','Assets descargados','Diseño ejecutado','Revisión interna','Aprobado','Exportado','Programado']},
+    {fase:'🖼️ Flyer — Miércoles',items:['Brief/tema definido','Assets descargados','Diseño ejecutado','Revisión interna','Aprobado','Exportado','Programado']},
+    {fase:'🖼️ Flyer — Jueves',items:['Brief/tema definido','Assets descargados','Diseño ejecutado','Revisión interna','Aprobado','Exportado','Programado']},
+    {fase:'🎬 Video — Lunes',items:['Concepto/idea definida','Assets de video descargados','Edición (corte + música + texto on-screen)','Revisión interna','Aprobado por cliente','Export vertical 9:16','Programado / entregado']},
+    {fase:'🎬 Video — Martes',items:['Concepto definido','Edición','Aprobado','Export 9:16','Programado']},
+    {fase:'🎬 Video — Miércoles',items:['Concepto definido','Edición','Aprobado','Export 9:16','Programado']},
+    {fase:'🎬 Video — Jueves',items:['Concepto definido','Edición','Aprobado','Export 9:16','Programado']},
+    {fase:'🎬 Video — Viernes',items:['Concepto definido','Edición','Aprobado','Export 9:16','Programado']},
+    {fase:'🎬 Video — Sábado',items:['Concepto definido','Edición','Aprobado','Export 9:16','Programado']},
+    {fase:'🎬 Video — Domingo (opcional)',items:['Concepto definido','Edición','Aprobado','Export 9:16','Programado']},
+    {fase:'✅ Cierre de semana',items:['Todos los flyers entregados/programados','Todos los videos entregados/programados','Métricas semana anterior revisadas','Assets próxima semana solicitados al cliente','Nueva entrada de semana creada en sistema']}
+  ];
+  const AGENCIA=[
+    {fase:'💡 Idea',items:['Concepto definido','Referencias visuales recopiladas','Copy / texto aprobado internamente']},
+    {fase:'🎨 Diseño',items:['Assets descargados','Pieza diseñada / editada','Revisión interna realizada']},
+    {fase:'👁️ Revisión',items:['Enviado al cliente para aprobación','Feedback recibido','Ajustes aplicados','Aprobación final confirmada']},
+    {fase:'📅 Programado / Entregado',items:['Fecha y hora de publicación definida','Programado en herramienta (Meta Business / Buffer)','Publicación confirmada en vivo']}
+  ];
+  const src=c==='Bodas'?BODAS:c==='Cevichería'?CEV:AGENCIA;
+  return src.map(f=>({fase:f.fase,items:f.items.map(i=>({text:i,done:false}))}));
+}
+
+let proyectos=JSON.parse(localStorage.getItem('freelance_os')||'null');
+let vistaCurrent='kanban';
+let filtroCliente='todos';
+let editandoId=null;
+let detalleId=null;
+
+if(!proyectos){
+  const hoy=new Date();
+  const d=n=>{const x=new Date(hoy);x.setDate(x.getDate()+n);return x.toISOString().split('T')[0]};
+  proyectos=[
+    {id:1,nombre:'Boda García-López — 15 Jun',cliente:'Bodas',tipo:'Video largo',estado:'En edición',prioridad:'Alta',fecha:d(12),plataforma:'',campana:'',assets:'',notas:'5 horas de material. Dos cámaras. Evento en hacienda.',avance:35,checks:mkChecks('Bodas')},
+    {id:2,nombre:'Boda Ríos-Mendoza — 8 Jul',cliente:'Bodas',tipo:'Video largo',estado:'Ingesta',prioridad:'Media',fecha:d(35),plataforma:'',campana:'',assets:'',notas:'Material entregado en disco externo.',avance:5,checks:mkChecks('Bodas')},
+    {id:3,nombre:'Semana 23 — Cevichería',cliente:'Cevichería',tipo:'Semana lote',estado:'En edición',prioridad:'Alta',fecha:d(3),plataforma:'Instagram',campana:'',assets:'',notas:'4 flyers + 6 videos esta semana.',avance:60,checks:mkChecks('Cevichería')},
+    {id:4,nombre:'Semana 24 — Cevichería',cliente:'Cevichería',tipo:'Semana lote',estado:'Ingesta',prioridad:'Media',fecha:d(10),plataforma:'TikTok',campana:'',assets:'',notas:'',avance:0,checks:mkChecks('Cevichería')},
+    {id:5,nombre:'Campaña Cusco Jun25',cliente:'Agencia',tipo:'Post foto',estado:'Diseño',prioridad:'Alta',fecha:d(5),plataforma:'Instagram',campana:'Cusco Jun25',assets:'',notas:'Serie de 5 publicaciones para destino Cusco.',avance:40,checks:mkChecks('Agencia')},
+    {id:6,nombre:'Reel Cancún — Playa del Carmen',cliente:'Agencia',tipo:'Reel/TikTok',estado:'Revisión',prioridad:'Media',fecha:d(7),plataforma:'TikTok',campana:'Cancún Jul25',assets:'',notas:'',avance:75,checks:mkChecks('Agencia')},
+    {id:7,nombre:'Post Facebook Machu Picchu',cliente:'Agencia',tipo:'Post foto',estado:'Programado',prioridad:'Baja',fecha:d(1),plataforma:'Facebook',campana:'Perú Jun25',assets:'',notas:'',avance:100,checks:mkChecks('Agencia')}
+  ];
+  guardar();
+}
+
+function guardar(){localStorage.setItem('freelance_os',JSON.stringify(proyectos));}
+
+function exportarBackup(){
+  const blob=new Blob([JSON.stringify(proyectos,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='freelanceos_backup_'+new Date().toISOString().split('T')[0]+'.json';a.click();
+}
+function importarBackup(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{proyectos=JSON.parse(ev.target.result);guardar();renderAll();alert('Backup importado correctamente.');}catch{alert('Archivo inválido.');}};
+  r.readAsText(file);e.target.value='';
+}
+
+function getFiltrados(){
+  let p=proyectos;
+  if(filtroCliente!=='todos') p=p.filter(x=>x.cliente===filtroCliente);
+  const es=document.getElementById('filter-estado').value;
+  if(es) p=p.filter(x=>x.estado===es);
+  return p;
+}
+
+function clientPill(c){
+  const cls=c==='Bodas'?'pill-boda':c==='Cevichería'?'pill-cev':'pill-agencia';
+  return `<span class="pill ${cls}">${c}</span>`;
+}
+function estadoPill(e){return `<span class="status-pill" style="${ESTADO_STYLE[e]||''}">${e}</span>`;}
+function prioBadge(p){const col={Alta:'#c0392b',Media:'#d67e00',Baja:'#27ae60'}[p]||'#888';return `<span style="font-size:10px;color:${col};font-weight:700">${p==='Alta'?'↑':p==='Baja'?'↓':'→'} ${p}</span>`;}
+function barraAvance(pct){return `<div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>`;}
+
+function renderAll(){
+  const fp=getFiltrados();
+  const total=proyectos.length;
+  const activos=proyectos.filter(x=>x.estado!=='Entregado').length;
+  document.getElementById('total-badge').textContent=total;
+  document.getElementById('stats-mini').innerHTML=`${total} proyectos totales<br>${activos} activos · ${total-activos} entregados`;
+  if(vistaCurrent==='kanban') renderKanban(fp);
+  else if(vistaCurrent==='calendario') renderCalendario(fp);
+  else renderLista(fp);
+}
+
+function renderKanban(fp){
+  document.getElementById('view-title').textContent='Tablero Kanban';
+  const byE={};ESTADOS.forEach(e=>byE[e]=fp.filter(p=>p.estado===e));
+  const el=document.getElementById('main-content');
+  el.style.overflowX='auto';
+  el.innerHTML=`<div class="kanban">${ESTADOS.map(e=>`
+    <div class="kanban-col">
+      <div class="kanban-header"><span>${e}</span><span class="col-count">${byE[e].length}</span></div>
+      <div class="kanban-cards">
+        ${byE[e].length===0?`<div class="empty-col">Sin proyectos</div>`:''}
+        ${byE[e].map(p=>`
+          <div class="card" onclick="abrirDetalle(${p.id})">
+            <div class="card-title">${p.nombre}</div>
+            <div class="card-meta">
+              ${clientPill(p.cliente)}
+              ${prioBadge(p.prioridad)}
+              ${p.fecha?`<span class="card-date">📅 ${p.fecha}</span>`:''}
+            </div>
+            ${barraAvance(p.avance)}
+            <div style="font-size:10px;color:#aaa;margin-top:3px">${p.avance}% completado</div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function renderCalendario(fp){
+  document.getElementById('view-title').textContent='Calendario de contenido';
+  const ahora=new Date();const yr=ahora.getFullYear();const mo=ahora.getMonth();
+  const primerDia=new Date(yr,mo,1).getDay();
+  const diasEnMes=new Date(yr,mo+1,0).getDate();
+  const meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const dias=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const evts={};
+  fp.forEach(p=>{
+    if(p.fecha){const[y,m,d]=p.fecha.split('-').map(Number);if(m-1===mo&&y===yr){if(!evts[d])evts[d]=[];evts[d].push(p);}}
+  });
+  const el=document.getElementById('main-content');
+  el.style.overflowX='';
+  let html=`<div class="cal-wrapper">
+    <div class="cal-top"><h3>${meses[mo]} ${yr}</h3><span style="font-size:12px;color:#aaa">Cevichería y Agencia — haz clic en un evento para ver detalles</span></div>
+    <div class="cal-grid">
+      ${dias.map(d=>`<div class="cal-head">${d}</div>`).join('')}`;
+  let dia=1;
+  for(let row=0;row<6;row++){
+    for(let col=0;col<7;col++){
+      const idx=row*7+col;
+      if(idx<primerDia||dia>diasEnMes){html+=`<div class="cal-day other"></div>`;continue;}
+      const esHoy=dia===ahora.getDate();
+      const ev=evts[dia]||[];
+      html+=`<div class="cal-day">
+        <div class="cal-num${esHoy?' today':''}">${dia}</div>
+        ${ev.slice(0,3).map(p=>{
+          const cls=p.cliente==='Cevichería'?'ev-cev':p.cliente==='Agencia'?'ev-agencia':'ev-boda';
+          return `<div class="cal-event ${cls}" onclick="abrirDetalle(${p.id})" title="${p.nombre}">${p.nombre}</div>`;
+        }).join('')}
+        ${ev.length>3?`<div style="font-size:9px;color:#aaa">+${ev.length-3} más</div>`:''}
+      </div>`;
+      dia++;
+    }
+    if(dia>diasEnMes)break;
+  }
+  html+=`</div></div>`;
+  el.innerHTML=html;
+}
+
+function renderLista(fp){
+  document.getElementById('view-title').textContent='Lista por cliente';
+  const el=document.getElementById('main-content');
+  el.style.overflowX='';
+  const byC={Bodas:fp.filter(p=>p.cliente==='Bodas'),Cevichería:fp.filter(p=>p.cliente==='Cevichería'),Agencia:fp.filter(p=>p.cliente==='Agencia')};
+  let html=`<div class="list-wrap"><table class="list-table">
+    <thead><tr><th>Proyecto</th><th>Tipo</th><th>Estado</th><th>Prioridad</th><th>Entrega</th><th style="min-width:120px">Avance</th></tr></thead><tbody>`;
+  ['Bodas','Cevichería','Agencia'].forEach(c=>{
+    if(!byC[c].length)return;
+    const ico=c==='Bodas'?'💒':c==='Cevichería'?'🍋':'✈️';
+    html+=`<tr class="group-row"><td colspan="6">${ico} ${c} — ${byC[c].length} proyectos</td></tr>`;
+    byC[c].sort((a,b)=>a.fecha>b.fecha?1:-1).forEach(p=>{
+      html+=`<tr onclick="abrirDetalle(${p.id})">
+        <td style="font-weight:600;max-width:220px">${p.nombre}</td>
+        <td style="color:#888">${p.tipo}</td>
+        <td>${estadoPill(p.estado)}</td>
+        <td>${prioBadge(p.prioridad)}</td>
+        <td style="color:#aaa;white-space:nowrap">${p.fecha||'—'}</td>
+        <td>${barraAvance(p.avance)}<span style="font-size:10px;color:#aaa">${p.avance}%</span></td>
+      </tr>`;
+    });
+  });
+  html+=`</tbody></table></div>`;
+  el.innerHTML=html;
+}
+
+function setView(v,btn){
+  vistaCurrent=v;
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function filtrarCliente(c,btn){
+  filtroCliente=c;
+  document.querySelectorAll('[id^="f-"]').forEach(b=>{if(b.tagName==='BUTTON')b.classList.remove('active')});
+  btn.classList.add('active');
+  renderAll();
+}
+
+function actualizarTipo(){
+  const c=document.getElementById('f-cliente').value;
+  const t=document.getElementById('f-tipo');
+  t.innerHTML=(TIPOS[c]||[]).map(o=>`<option>${o}</option>`).join('');
+}
+
+function abrirModal(id){
+  editandoId=id||null;
+  const p=id?proyectos.find(x=>x.id===id):null;
+  document.getElementById('modal-title').textContent=p?'Editar proyecto':'Nuevo proyecto';
+  document.getElementById('f-nombre').value=p?p.nombre:'';
+  document.getElementById('f-cliente').value=p?p.cliente:'Bodas';
+  actualizarTipo();
+  if(p)document.getElementById('f-tipo').value=p.tipo;
+  document.getElementById('f-estado').value=p?p.estado:'Ingesta';
+  document.getElementById('f-prioridad').value=p?p.prioridad:'Media';
+  document.getElementById('f-fecha').value=p?p.fecha:'';
+  document.getElementById('f-plataforma').value=p?p.plataforma:'';
+  document.getElementById('f-avance').value=p?p.avance:0;
+  document.getElementById('f-assets').value=p?p.assets:'';
+  document.getElementById('f-campana').value=p?p.campana:'';
+  document.getElementById('f-notas').value=p?p.notas:'';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function cerrarModal(){document.getElementById('modal-overlay').classList.remove('open');}
+
+function guardarProyecto(){
+  const nombre=document.getElementById('f-nombre').value.trim();
+  if(!nombre){alert('El nombre es obligatorio');return;}
+  const cliente=document.getElementById('f-cliente').value;
+  const data={nombre,cliente,tipo:document.getElementById('f-tipo').value,estado:document.getElementById('f-estado').value,prioridad:document.getElementById('f-prioridad').value,fecha:document.getElementById('f-fecha').value,plataforma:document.getElementById('f-plataforma').value,avance:parseInt(document.getElementById('f-avance').value)||0,assets:document.getElementById('f-assets').value,campana:document.getElementById('f-campana').value,notas:document.getElementById('f-notas').value};
+  if(editandoId){
+    const idx=proyectos.findIndex(p=>p.id===editandoId);
+    proyectos[idx]={...proyectos[idx],...data};
+  } else {
+    proyectos.push({id:Date.now(),...data,checks:mkChecks(cliente)});
+  }
+  guardar();cerrarModal();renderAll();
+}
+
+function abrirDetalle(id){
+  detalleId=id;
+  renderDetalle();
+  document.getElementById('detail-overlay').classList.add('open');
+}
+function cerrarDetalle(){document.getElementById('detail-overlay').classList.remove('open');}
+
+function renderDetalle(){
+  const p=proyectos.find(x=>x.id===detalleId);if(!p)return;
+  const totalItems=p.checks.reduce((a,f)=>a+f.items.length,0);
+  const doneItems=p.checks.reduce((a,f)=>a+f.items.filter(i=>i.done).length,0);
+  const pct=totalItems?Math.round(doneItems/totalItems*100):0;
+  let html=`
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #eee">
+      <div style="flex:1">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${clientPill(p.cliente)} ${estadoPill(p.estado)} ${prioBadge(p.prioridad)}</div>
+        <h2 style="font-size:18px;font-weight:700">${p.nombre}</h2>
+      </div>
+      <button class="btn" onclick="cerrarDetalle();abrirModal(${p.id})"><i class="ti ti-edit"></i> Editar</button>
+    </div>
+    <div class="prop-grid">
+      <div class="prop-block"><label>Entrega</label><span>${p.fecha||'—'}</span></div>
+      <div class="prop-block"><label>Plataforma</label><span>${p.plataforma||'—'}</span></div>
+      <div class="prop-block"><label>Campaña</label><span>${p.campana||'—'}</span></div>
+    </div>
+    ${p.assets?`<div style="margin-bottom:12px;font-size:12px;color:#555"><i class="ti ti-folder"></i> <a href="${p.assets}" target="_blank" style="color:#534AB7">Carpeta de assets →</a></div>`:''}
+    ${p.notas?`<div class="notes-box">${p.notas}</div>`:''}
+    <div class="global-bar">
+      <div class="global-bar-header"><span>📊 Avance del checklist</span><small>${doneItems}/${totalItems} tareas completadas · ${pct}%</small></div>
+      <div class="pbar"><div class="pbar-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="section-title">% Avance manual</div>
+    <div class="avance-row">
+      <input type="range" min="0" max="100" value="${p.avance}" oninput="actualizarAvance(${p.id},this.value);document.getElementById('av-lbl').textContent=this.value+'%'">
+      <span id="av-lbl">${p.avance}%</span>
+    </div>
+    <div class="section-title">Checklist por fases</div>`;
+  p.checks.forEach((fase,fi)=>{
+    const fd=fase.items.filter(i=>i.done).length;
+    const ft=fase.items.length;
+    const fp2=ft?Math.round(fd/ft*100):0;
+    html+=`<div class="phase-block">
+      <div class="phase-header"><span>${fase.fase}</span><small>${fd}/${ft} · ${fp2}%</small></div>
+      <div class="pbar"><div class="pbar-fill" style="width:${fp2}%"></div></div>
+      ${fase.items.map((item,ii)=>`
+        <div class="check-item${item.done?' done':''}" onclick="toggleCheck(${p.id},${fi},${ii})">
+          <input type="checkbox" ${item.done?'checked':''} onclick="event.stopPropagation();toggleCheck(${p.id},${fi},${ii})">
+          <label>${item.text}</label>
+        </div>`).join('')}
+    </div>`;
+  });
+  document.getElementById('detail-content').innerHTML=html;
+}
+
+function toggleCheck(pid,fi,ii){
+  const p=proyectos.find(x=>x.id===pid);
+  p.checks[fi].items[ii].done=!p.checks[fi].items[ii].done;
+  guardar();renderDetalle();renderAll();
+}
+function actualizarAvance(pid,val){
+  const p=proyectos.find(x=>x.id===pid);
+  p.avance=parseInt(val);guardar();renderAll();
+}
+function eliminarProyecto(){
+  if(!confirm('¿Eliminar este proyecto? Esta acción no se puede deshacer.'))return;
+  proyectos=proyectos.filter(p=>p.id!==detalleId);
+  guardar();cerrarDetalle();renderAll();
+}
+
+document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)cerrarModal();});
+document.getElementById('detail-overlay').addEventListener('click',function(e){if(e.target===this)cerrarDetalle();});
+
+actualizarTipo();
+renderAll();
+</script>
+</body>
+</html>
